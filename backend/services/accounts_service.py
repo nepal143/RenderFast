@@ -3,7 +3,8 @@ import os
 from pathlib import Path
 from typing import Dict, List
 
-ACCOUNTS_FILE = Path("data/kaggle_accounts.json")
+BACKEND_DIR = Path(__file__).parent.parent
+ACCOUNTS_FILE = BACKEND_DIR / "data" / "kaggle_accounts.json"
 
 
 def _load() -> List[Dict]:

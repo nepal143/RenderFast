@@ -27,7 +27,7 @@ app.include_router(progress.router, prefix="/api/progress", tags=["Progress"])
 app.include_router(download.router, prefix="/api/download", tags=["Download"])
 
 # Serve rendered frames as static files
-frames_dir = Path("rendered_frames")
+frames_dir = Path(__file__).parent / "rendered_frames"
 frames_dir.mkdir(exist_ok=True)
 app.mount("/frames", StaticFiles(directory=str(frames_dir)), name="frames")
 

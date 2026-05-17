@@ -6,6 +6,7 @@ from fastapi.responses import FileResponse
 
 from services.render_service import download_job_frames, get_job
 
+BACKEND_DIR = Path(__file__).parent.parent
 router = APIRouter()
 
 
@@ -25,11 +26,11 @@ async def trigger_download(job_id: str):
 @router.get("/{job_id}/zip")
 def download_frames_zip(job_id: str):
     """Bundle all downloaded frames into a zip and serve it."""
-    frames_dir = Path(f"rendered_frames/{job_id}")
+    frames_dir = BACKEND_DIR / "rendered_frames" / job_id
     if not frames_dir.exists():
         raise HTTPException(status_code=404, detail="Frames not downloaded yet. POST to /api/download/{job_id} first.")
 
-    zip_path = Path(f"rendered_frames/{job_id}.zip")
+    zip_path = BACKEND_DIR / "rendered_frames" / f"{job_id}.zip"
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
         for frame in sorted(frames_dir.iterdir()):
             zf.write(frame, frame.name)
@@ -44,7 +45,7 @@ def download_frames_zip(job_id: str):
 @router.get("/{job_id}/frames")
 def list_frames(job_id: str):
     """List all locally downloaded frame filenames."""
-    frames_dir = Path(f"rendered_frames/{job_id}")
+    frames_dir = BACKEND_DIR / "rendered_frames" / job_id
     if not frames_dir.exists():
         return {"frames": []}
     frames = sorted([f.name for f in frames_dir.iterdir() if f.is_file()])

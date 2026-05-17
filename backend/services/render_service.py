@@ -14,8 +14,9 @@ from services.kaggle_service import (
     download_kernel_output,
 )
 
-JOBS_FILE = Path("data/jobs.json")
-NOTEBOOK_TEMPLATE = Path("kaggle_notebook/render_template.ipynb")
+BACKEND_DIR = Path(__file__).parent.parent
+JOBS_FILE = BACKEND_DIR / "data" / "jobs.json"
+NOTEBOOK_TEMPLATE = BACKEND_DIR / "kaggle_notebook" / "render_template.ipynb"
 
 
 def _load_jobs() -> Dict:
@@ -154,7 +155,7 @@ async def download_job_frames(job_id: str) -> str:
     if not job:
         raise ValueError(f"Job {job_id} not found")
 
-    out_dir = Path(f"rendered_frames/{job_id}")
+    out_dir = BACKEND_DIR / "rendered_frames" / job_id
     out_dir.mkdir(parents=True, exist_ok=True)
 
     for task in job["tasks"]:

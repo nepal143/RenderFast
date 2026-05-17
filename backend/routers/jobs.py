@@ -8,9 +8,11 @@ from pydantic import BaseModel
 
 from services.render_service import create_render_job, list_jobs, get_job
 
+BACKEND_DIR = Path(__file__).parent.parent
+
 router = APIRouter()
 
-UPLOAD_DIR = Path("uploads")
+UPLOAD_DIR = BACKEND_DIR / "uploads"
 UPLOAD_DIR.mkdir(exist_ok=True)
 
 

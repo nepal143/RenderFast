@@ -8,11 +8,11 @@ from typing import List, Dict
 
 def _get_api(username: str, api_key: str):
     """Instantiate a Kaggle API client for a specific account (lazy import)."""
-    # Import here to avoid module-level authentication side effects
-    from kaggle.api.kaggle_api_extended import KaggleApiExtended  # noqa: PLC0415
     os.environ["KAGGLE_USERNAME"] = username
     os.environ["KAGGLE_KEY"] = api_key
-    api = KaggleApiExtended()
+    # Import AFTER setting env vars so kaggle/__init__.py authenticate() uses them
+    from kaggle.api.kaggle_api_extended import KaggleApi  # noqa: PLC0415
+    api = KaggleApi()
     api.authenticate()
     return api
 
