@@ -5,12 +5,11 @@ import tempfile
 from pathlib import Path
 from typing import List, Dict
 
-import kaggle
-from kaggle.api.kaggle_api_extended import KaggleApiExtended
 
-
-def _get_api(username: str, api_key: str) -> KaggleApiExtended:
-    """Instantiate a Kaggle API client for a specific account."""
+def _get_api(username: str, api_key: str):
+    """Instantiate a Kaggle API client for a specific account (lazy import)."""
+    # Import here to avoid module-level authentication side effects
+    from kaggle.api.kaggle_api_extended import KaggleApiExtended  # noqa: PLC0415
     os.environ["KAGGLE_USERNAME"] = username
     os.environ["KAGGLE_KEY"] = api_key
     api = KaggleApiExtended()

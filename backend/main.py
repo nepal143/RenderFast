@@ -4,6 +4,9 @@ from fastapi.staticfiles import StaticFiles
 import asyncio
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()   # reads backend/.env if present
 
 from routers import accounts, jobs, progress, download
 
